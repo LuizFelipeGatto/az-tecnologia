@@ -25,3 +25,5 @@ Projeto de gerenciamento de leilões com as seguintes tecnologias
 
   Abra o front em algum editor de texto, abra o terminal e coloque para baixar as dependências com o comando ``npm-install``.
   Após isso, utilize ``npm run dev`` para rodar o frontend. 
+
+  OBS: Versão do node utilizada - v16.17.1
