@@ -37,12 +37,12 @@ public class EmpresaService {
     }
 
     @PostMapping
-    public ResponseEntity<EmpresaDTO> registrarEmpresa(@RequestBody Empresa empresa) {
+    public ResponseEntity<ResultadoOperacaoDTO<String>> registrarEmpresa(@RequestBody Empresa empresa) {
         return ResponseEntity.ok(empresaBusiness.salvarEmpresa(empresa));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmpresaDTO> atualizarEmpresa(@RequestBody EmpresaDTO empresaDTO, @PathVariable Integer id){
+    public ResponseEntity<ResultadoOperacaoDTO<String>> atualizarEmpresa(@RequestBody EmpresaDTO empresaDTO, @PathVariable Integer id){
         return ResponseEntity.ok(empresaBusiness.editarEmpresa(empresaDTO, id));
     }
 

@@ -1,7 +1,7 @@
 -- Dados na tabela Empresa
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Delta Ltda',
+       'Delta Ltda',
        '12.345.678/0001-90',
        'Rua das Orquídeas',
        'Porto Alegre',
@@ -20,7 +20,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Epsilon S/A',
+       'Epsilon S/A',
        '23.456.789/0001-01',
        'Avenida dos Lírios',
        'Curitiba',
@@ -39,7 +39,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Zeta & Filhos',
+       'Zeta & Filhos',
        '34.567.890/0001-12',
        'Rua das Tulipas',
        'Brasília',
@@ -58,7 +58,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Theta Ltda',
+       'Theta Ltda',
        '45.678.901/0001-23',
        'Avenida das Margaridas',
        'Fortaleza',
@@ -77,7 +77,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Iota & Cia',
+       'Iota & Cia',
        '56.789.012/0001-34',
        'Rua dos Cravos',
        'Recife',
@@ -96,7 +96,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Kappa Ltda',
+       'Kappa Ltda',
        '67.890.123/0001-45',
        'Avenida das Bromélias',
        'Manaus',
@@ -115,7 +115,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Lambda S/A',
+       'Lambda S/A',
        '78.901.234/0001-56',
        'Rua das Hortênsias',
        'Salvador',
@@ -134,7 +134,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Mu & Filhos',
+       'Mu & Filhos',
        '89.012.345/0001-67',
        'Avenida das Gérberas',
        'Goiânia',
@@ -153,7 +153,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Nu Ltda',
+       'Nu Ltda',
        '90.123.456/0001-78',
        'Rua das Begônias',
        'Natal',
@@ -172,7 +172,7 @@ INSERT INTO projeto.empresa VALUES (
 
 INSERT INTO projeto.empresa VALUES (
        DEFAULT,
-       'Empresa Xi S/A',
+       'Xi S/A',
        '01.234.567/0001-89',
        'Avenida das Azaléias',
        'Florianópolis',

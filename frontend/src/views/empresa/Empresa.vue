@@ -62,7 +62,7 @@
 import api from '../../services/api.js';
 import { VueMaskDirective } from 'vue-the-mask';
 import { RouterLink } from 'vue-router';
-import { ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 export default {
     name: 'empresaVue',
@@ -168,7 +168,7 @@ export default {
                 this.emitirNotificacao('Verifique o usuário')
                 return false;
             }
-
+            
             return true;
         },
 
@@ -183,12 +183,53 @@ export default {
                 )
         },
 
+        limpaCampos () {
+            this.form = {
+                razaoSocial: '',
+                cnpj: '',
+                lograduro: '',
+                municipio: '',
+                numero: '',
+                complemento: '',
+                bairro: '',
+                cep: '',
+                telefone: '',
+                email: '',
+                site: '',
+                usuario: '',
+                senha: ''
+            },
+            this.blurred = false,
+            this.blurredCnpj = false,
+            this.blurredRazao = false,
+            this.blurredUsuario = false
+        },
+
         async salvar() {
-            await api.salvar('empresa', this.form);
+            const retorno = await api.salvar('empresa', this.form);
+            if(retorno.mensagemErro !== null){
+                this.mensagem('warning', retorno.mensagemErro)
+            } else {
+                this.mensagem('success', retorno.resultado)
+                this.limpaCampos()
+            }
         },
 
         async atualizar(id) {
-            await api.atualizar('empresa', this.form, id);
+            const retorno = await api.atualizar('empresa', this.form, id);
+            if(retorno.mensagemErro !== null){
+                this.mensagem('warning', retorno.mensagemErro)
+            } else {
+                this.mensagem('success', retorno.resultado)
+                this.limpaCampos()
+            }
+        },
+
+         mensagem(tipo, mensagem) {
+            ElMessage({
+                    type: tipo,
+                    message: mensagem,
+            });
         },
 
         handleBlur() {

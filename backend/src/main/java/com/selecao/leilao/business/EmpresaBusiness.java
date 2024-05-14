@@ -9,6 +9,7 @@ import com.selecao.leilao.repository.LeilaoRepository;
 import com.selecao.leilao.specification.EmpresaSpecification;
 import com.selecao.leilao.specification.filter.Filtro;
 import com.selecao.leilao.util.Constants;
+import com.selecao.leilao.util.DataUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -73,24 +74,42 @@ public class EmpresaBusiness {
     }
 
     @Transactional
-    public EmpresaDTO salvarEmpresa(Empresa empresa){
+    public ResultadoOperacaoDTO<String> salvarEmpresa(Empresa empresa){
+        if (empresaRepository.existeEmpresaCnpj(empresa.getCnpj())){
+            return new ResultadoOperacaoDTO<>(false, null, Constants.CNPJ_CADASTRADO);
+        }
+
+        if (empresaRepository.existeEmpresaUsuario(empresa.getUsuario())){
+            return new ResultadoOperacaoDTO<>(false, null, Constants.USUARIO_JA_CADASTRADO);
+        }
+
         empresa.setCreatedAt(LocalDateTime.now());
         empresa.setUpdatedAt(LocalDateTime.now());
-        Empresa empresaSalva = empresaRepository.save(empresa);
-        return new EmpresaDTO(empresaSalva);
+        empresa.setSenha(DataUtils.hashPassword(empresa.getSenha()));
+        empresaRepository.save(empresa);
+        return new ResultadoOperacaoDTO<>(true, Constants.EMPRESA_CADASTRADA, null);
     }
 
     @Transactional
-    public EmpresaDTO editarEmpresa(EmpresaDTO empresaDTO, Integer id){
+    public ResultadoOperacaoDTO<String> editarEmpresa(EmpresaDTO empresaDTO, Integer id){
         Optional<Empresa> empresa = empresaRepository.findById(id);
         if(empresa.isEmpty()){
             return null;
         }
+
+        if (empresaRepository.existeEmpresaCnpj(empresaDTO.getCnpj()) && !empresa.get().getCnpj().equals(empresaDTO.getCnpj())){
+            return new ResultadoOperacaoDTO<>(false, null, Constants.CNPJ_CADASTRADO);
+        }
+
+        if (empresaRepository.existeEmpresaUsuario(empresaDTO.getUsuario()) && !empresa.get().getUsuario().equals(empresaDTO.getUsuario())){
+            return new ResultadoOperacaoDTO<>(false, null, Constants.USUARIO_JA_CADASTRADO);
+        }
+
         empresaDTO.setId(empresa.get().getId());
         Empresa empresaSalvar = atualizaEmpresa(empresaDTO);
         empresaSalvar.setCreatedAt(empresa.get().getCreatedAt());
-
-        return new EmpresaDTO(empresaRepository.save(empresaSalvar));
+        empresaRepository.save(empresaSalvar);
+        return new ResultadoOperacaoDTO<>(true, Constants.EMPRESA_ATUALIZADA, null);
     }
 
     public Empresa atualizaEmpresa(EmpresaDTO empresaDTO){
