@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class DataUtils {
+public class Utils {
 
     public static String formataData(LocalDateTime localDateTime){
         DateTimeFormatter dateTime = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");

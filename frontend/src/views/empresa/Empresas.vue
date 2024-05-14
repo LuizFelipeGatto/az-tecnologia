@@ -137,7 +137,7 @@ export default {
 
         open(id) {
             ElMessageBox.confirm(
-                'Deseja realmente exlcuir este item ?',
+                'Deseja realmente excluir este item ?',
                 'Atenção',
                 {
                 confirmButtonText: 'Sim',

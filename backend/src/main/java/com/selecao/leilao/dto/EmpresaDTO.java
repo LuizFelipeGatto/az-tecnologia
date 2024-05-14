@@ -1,7 +1,7 @@
 package com.selecao.leilao.dto;
 
 import com.selecao.leilao.entity.Empresa;
-import com.selecao.leilao.util.DataUtils;
+import com.selecao.leilao.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,8 +66,8 @@ public class EmpresaDTO {
         this.email = empresa.getEmail();
         this.site = empresa.getSite();
         this.usuario = empresa.getUsuario();
-        this.createdAtFormatada = Objects.nonNull(empresa.getCreatedAt()) ? DataUtils.formataData(empresa.getCreatedAt()) : "";
-        this.updatedAtFormatada = Objects.nonNull(empresa.getUpdatedAt()) ? DataUtils.formataData(empresa.getUpdatedAt()) : "";
+        this.createdAtFormatada = Objects.nonNull(empresa.getCreatedAt()) ? Utils.formataData(empresa.getCreatedAt()) : "";
+        this.updatedAtFormatada = Objects.nonNull(empresa.getUpdatedAt()) ? Utils.formataData(empresa.getUpdatedAt()) : "";
     }
 
 }

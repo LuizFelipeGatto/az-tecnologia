@@ -41,5 +41,4 @@ public class UnidadeService {
         return ResponseEntity.ok(unidadeBusiness.deletarUnidade(id));
     }
 
-
 }

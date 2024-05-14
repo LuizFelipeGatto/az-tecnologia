@@ -11,7 +11,7 @@ import com.selecao.leilao.repository.LeilaoRepository;
 import com.selecao.leilao.specification.LeilaoSpecification;
 import com.selecao.leilao.specification.filter.Filtro;
 import com.selecao.leilao.util.Constants;
-import com.selecao.leilao.util.DataUtils;
+import com.selecao.leilao.util.Utils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -60,20 +60,13 @@ public class LeilaoBusiness {
         Pageable pageable = leilaoSpecification.buildPageable(filtro);
         Page<LeilaoDTO> page = leilaoDTORepository.findAll(tranSpec, pageable);
 
-//        for (LeilaoDTO leilaoDTO : page.getContent()) {
-//            Optional<Empresa> empresa = empresaRepository.findById(leilaoDTO.getComprador());
-//            leilaoDTO.setRazaoSocial(empresa.get().getRazaoSocial());
-//            leilaoDTO.setInicioPrevistoFormatado(DataUtils.formataData(leilaoDTO.getInicioPrevisto()));
-//        }
-
         page.getContent().stream().forEach(leilaoDTO -> {
             empresaRepository.findById(leilaoDTO.getComprador())
                     .ifPresent(empresa -> {
                         leilaoDTO.setRazaoSocial(empresa.getRazaoSocial());
-                        leilaoDTO.setInicioPrevistoFormatado(DataUtils.formataData(leilaoDTO.getInicioPrevisto()));
+                        leilaoDTO.setInicioPrevistoFormatado(Utils.formataData(leilaoDTO.getInicioPrevisto()));
                     });
         });
-
 
         return page;
     }
@@ -89,7 +82,7 @@ public class LeilaoBusiness {
 
     public LeilaoDTO populaLeilao(Leilao leilao){
         LeilaoDTO leilaoDTO = leilaoDTORepository.findByComprador(leilao.getId());
-        leilaoDTO.setInicioPrevistoFormatado(DataUtils.formataData(leilaoDTO.getInicioPrevisto()));
+        leilaoDTO.setInicioPrevistoFormatado(Utils.formataData(leilaoDTO.getInicioPrevisto()));
         Optional<Empresa> empresa = empresaRepository.findById(leilaoDTO.getComprador());
         if(empresa.isEmpty()){
             return null;

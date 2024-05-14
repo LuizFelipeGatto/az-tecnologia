@@ -9,7 +9,7 @@ import com.selecao.leilao.repository.LeilaoRepository;
 import com.selecao.leilao.specification.EmpresaSpecification;
 import com.selecao.leilao.specification.filter.Filtro;
 import com.selecao.leilao.util.Constants;
-import com.selecao.leilao.util.DataUtils;
+import com.selecao.leilao.util.Utils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -85,7 +85,7 @@ public class EmpresaBusiness {
 
         empresa.setCreatedAt(LocalDateTime.now());
         empresa.setUpdatedAt(LocalDateTime.now());
-        empresa.setSenha(DataUtils.hashPassword(empresa.getSenha()));
+        empresa.setSenha(Utils.hashPassword(empresa.getSenha()));
         empresaRepository.save(empresa);
         return new ResultadoOperacaoDTO<>(true, Constants.EMPRESA_CADASTRADA, null);
     }

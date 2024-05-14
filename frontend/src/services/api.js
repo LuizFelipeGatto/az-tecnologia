@@ -14,7 +14,7 @@ export default {
             });
             return data;
         } catch (error) {
-            console.error('Error ao buscar jogo e atletas:', error);
+            console.error(error);
         }
     },
 
@@ -27,7 +27,7 @@ export default {
 
             return data;
         } catch (error) {
-            console.error('Error ao buscar jogo e atletas:', error);
+            console.error(error);
         }
     },
 
@@ -41,7 +41,7 @@ export default {
             
             return data;
         } catch (error) {
-            console.error('Error ao buscar jogo e atletas:', error);
+            console.error(error);
         }
     },
 
@@ -50,15 +50,12 @@ export default {
             const {data} = await axios({
                 method: 'POST',
                 url: URLS.BACKEND + path + '/filter',
-                // headers: {
-                //     'Content-Type': 'application/json'
-                // },
                 data: filtro
             });
             
             return data;
         } catch (error) {
-            console.error('Error ao buscar jogo e atletas:', error);
+            console.error(error);
         }
     },
 
@@ -72,7 +69,7 @@ export default {
            
             return data;
         } catch (error) {
-            console.error('Error ao buscar jogo e atletas:', error);
+            console.error(error);
         }
     },
 
@@ -85,7 +82,7 @@ export default {
             
             return data;
         } catch (error) {
-            console.error('Error ao buscar jogo e atletas:', error);
+            console.error(error);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.selecao.leilao.dto;
 
 import com.selecao.leilao.entity.Unidade;
-import com.selecao.leilao.util.DataUtils;
+import com.selecao.leilao.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +30,8 @@ public class UnidadeDTO {
     public UnidadeDTO(Unidade unidade){
         this.id = unidade.getId();
         this.nome = unidade.getNome();
-        this.createdAtFormatada = DataUtils.formataData(unidade.getCreatedAt());
-        this.updatedAtFormatada = DataUtils.formataData(unidade.getUpdatedAt());
+        this.createdAtFormatada = Utils.formataData(unidade.getCreatedAt());
+        this.updatedAtFormatada = Utils.formataData(unidade.getUpdatedAt());
     }
 
 }
