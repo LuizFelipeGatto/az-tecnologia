@@ -25,7 +25,7 @@ public class EmpresaService {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmpresaDTO> empresaById(@PathVariable Integer id) {
+    public ResponseEntity<ResultadoOperacaoDTO<EmpresaDTO>> empresaById(@PathVariable Integer id) {
         return ResponseEntity.ok(empresaBusiness.getById(id));
     }
 

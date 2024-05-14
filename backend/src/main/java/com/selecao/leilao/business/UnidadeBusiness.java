@@ -1,8 +1,10 @@
 package com.selecao.leilao.business;
 
+import com.selecao.leilao.dto.ResultadoOperacaoDTO;
 import com.selecao.leilao.dto.UnidadeDTO;
 import com.selecao.leilao.entity.Unidade;
 import com.selecao.leilao.repository.UnidadeRepository;
+import com.selecao.leilao.util.Constants;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +34,8 @@ public class UnidadeBusiness {
     }
 
     @Transactional
-    public UnidadeDTO salvarUnidade(UnidadeDTO unidadeDTO){
-        Unidade unidade = unidadeRepository.save(
+    public ResultadoOperacaoDTO<String> salvarUnidade(UnidadeDTO unidadeDTO){
+        unidadeRepository.save(
                 Unidade
                 .builder()
                 .nome(unidadeDTO.getNome())
@@ -41,11 +43,11 @@ public class UnidadeBusiness {
                 .updatedAt(LocalDateTime.now())
                 .build()
         );
-        return new UnidadeDTO(unidade);
+        return new ResultadoOperacaoDTO<>(true, Constants.UNIDADE_CADASTRADA, null);
     }
 
     @Transactional
-    public UnidadeDTO editarUnidade(UnidadeDTO unidadeDTO, Integer id){
+    public ResultadoOperacaoDTO<String> editarUnidade(UnidadeDTO unidadeDTO, Integer id){
         Optional<Unidade> unidade = unidadeRepository.findById(id);
         if(unidade.isEmpty()){
             return null;
@@ -53,8 +55,8 @@ public class UnidadeBusiness {
         unidadeDTO.setId(unidade.get().getId());
         Unidade unidadeSalvar = atualizaUnidade(unidadeDTO);
         unidadeSalvar.setCreatedAt(unidade.get().getCreatedAt());
-
-        return new UnidadeDTO(unidadeRepository.save(unidadeSalvar));
+        unidadeRepository.save(unidadeSalvar);
+        return new ResultadoOperacaoDTO<>(true, Constants.UNIDADE_ATUALIZADA, null);
     }
 
     public Unidade atualizaUnidade(UnidadeDTO unidadeDTO){

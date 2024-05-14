@@ -225,7 +225,7 @@ export default {
             }
         },
 
-         mensagem(tipo, mensagem) {
+        mensagem(tipo, mensagem) {
             ElMessage({
                     type: tipo,
                     message: mensagem,

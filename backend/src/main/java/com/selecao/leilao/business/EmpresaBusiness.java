@@ -43,12 +43,12 @@ public class EmpresaBusiness {
         return empresas.stream().map(empresa -> new EmpresaDTO(empresa)).collect(Collectors.toList());
     }
 
-    public EmpresaDTO getById(Integer id){
+    public ResultadoOperacaoDTO<EmpresaDTO> getById(Integer id){
         Optional<Empresa> empresa = empresaRepository.findById(id);
         if(empresa.isEmpty()) {
-            return null;
+            return new ResultadoOperacaoDTO<>(false, null, Constants.EMPRESA_NAO_ENCONTRADA);
         }
-        return new EmpresaDTO(empresa.get());
+        return new ResultadoOperacaoDTO<>(false, new EmpresaDTO(empresa.get()), null);
     }
 
     public Page<Empresa> findByFilter(Filtro filtro) {

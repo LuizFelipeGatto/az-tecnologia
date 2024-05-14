@@ -8,7 +8,8 @@
         el-row(:gutter="10")
             el-col(:span="12")
                 el-form-item(label="Nome")
-                    el-input(v-model="form.nome" placeholder="digite o nome da unidade")
+                    el-input(v-model="form.nome" placeholder="digite o nome da unidade" maxlength="128" @blur="handleBlur" :class="{ 'error': hasErrorNome }")
+                    p(v-if="hasErrorNome" class="error-message") Campo obrigatório!
                     
             el-col(:span="24")
                 el-form-item
@@ -20,6 +21,7 @@
 
 import api from '../../services/api.js';
 import { RouterLink } from 'vue-router';
+import { ElMessage } from 'element-plus';
 
 export default {
     name: 'unidadeVue',
@@ -29,7 +31,8 @@ export default {
             id: null,
             form: {
                 nome: '',
-            }
+            },
+            blurred: false
         }
     },
 
@@ -41,6 +44,12 @@ export default {
         this.id = this.$route.params.id || null;
         if (this.id !== null) {
             this.form = await api.buscarPorId('unidade', this.id);
+        }
+    },
+
+    computed: {
+        hasErrorNome() {
+            return this.form.nome === '' && this.blurred;
         }
     },
 
@@ -56,12 +65,37 @@ export default {
         },
 
         async salvar() {
-            await api.salvar('unidade', this.form);
+            const retorno = await api.salvar('unidade', this.form);
+            if(retorno.mensagemErro !== null){
+                this.mensagem('warning', retorno.mensagemErro)
+            } else {
+                this.mensagem('success', retorno.resultado)
+                this.form.nome = ''
+                this.blurred = false;
+            }
         },
 
         async atualizar(id) {
-            await api.atualizar('unidade', this.form, id);
-        }
+            const retorno = await api.atualizar('unidade', this.form, id);
+            if(retorno.mensagemErro !== null){
+                this.mensagem('warning', retorno.mensagemErro)
+            } else {
+                this.mensagem('success', retorno.resultado)
+                this.form.nome = ''
+                this.blurred = false;
+            }
+        },
+
+        mensagem(tipo, mensagem) {
+            ElMessage({
+                    type: tipo,
+                    message: mensagem,
+            });
+        },
+
+        handleBlur() {
+            this.blurred = true;
+        },
     }
 }
 

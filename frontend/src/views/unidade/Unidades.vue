@@ -70,12 +70,16 @@ export default {
         },
 
         async handleOk(id) {
-            await api.deletar('unidade', id);
-            this.unidades = this.unidades.filter(item => item.id !== id);
-            ElMessage({
-                type: 'success',
-                message: 'Excluído com sucesso',
-            });
+            try {
+                await api.deletar('unidade', id);
+                this.unidades = this.unidades.filter(item => item.id !== id);
+                ElMessage({
+                    type: 'success',
+                    message: 'Excluído com sucesso',
+                });
+            } catch (error) {
+                console.error('Erro ao excluir:', error);
+            }
         },
 
         handleCancel() {
