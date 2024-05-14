@@ -1,15 +1,25 @@
 package com.selecao.leilao.business;
 
 import com.selecao.leilao.dto.EmpresaDTO;
+import com.selecao.leilao.dto.ResultadoOperacaoDTO;
 import com.selecao.leilao.entity.Empresa;
+import com.selecao.leilao.repository.CompradorRepository;
 import com.selecao.leilao.repository.EmpresaRepository;
+import com.selecao.leilao.repository.LeilaoRepository;
+import com.selecao.leilao.specification.EmpresaSpecification;
+import com.selecao.leilao.specification.filter.Filtro;
+import com.selecao.leilao.util.Constants;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,6 +28,10 @@ import java.util.stream.Collectors;
 public class EmpresaBusiness {
 
     private final EmpresaRepository empresaRepository;
+
+    private final LeilaoRepository leilaoRepository;
+
+    private final CompradorRepository compradorRepository;
 
     public List<Empresa> getEmpresas(){
         return empresaRepository.findAll();
@@ -36,8 +50,32 @@ public class EmpresaBusiness {
         return new EmpresaDTO(empresa.get());
     }
 
+    public Page<Empresa> findByFilter(Filtro filtro) {
+        EmpresaSpecification empresaSpecification = new EmpresaSpecification();
+        Specification<Empresa> tranSpec = empresaSpecification.build(filtro);
+        Pageable pageable = empresaSpecification.buildPageable(filtro);
+        return empresaRepository.findAll(tranSpec, pageable);
+    }
+
+    public List<Empresa> listarTodos () {
+        return empresaRepository.findAll();
+    }
+
+    public boolean filtroIsEmpty(Filtro filtro){
+        if(StringUtils.hasText(filtro.getCnpj())
+                || Objects.nonNull(filtro.getComprador())
+                || StringUtils.hasText(filtro.getTelefone())
+                || StringUtils.hasText(filtro.getEmail())) {
+            return false;
+        }
+
+        return true;
+    }
+
     @Transactional
     public EmpresaDTO salvarEmpresa(Empresa empresa){
+        empresa.setCreatedAt(LocalDateTime.now());
+        empresa.setUpdatedAt(LocalDateTime.now());
         Empresa empresaSalva = empresaRepository.save(empresa);
         return new EmpresaDTO(empresaSalva);
     }
@@ -76,9 +114,13 @@ public class EmpresaBusiness {
                 .build();
     }
 
-    public String deletarEmpresa(Integer id){
+    public ResultadoOperacaoDTO<String> deletarEmpresa(Integer id){
+        if(compradorRepository.vinculado(id)){
+            return new ResultadoOperacaoDTO<>(false, null, Constants.EMPRESA_VINCULADA);
+        }
+
         empresaRepository.findById(id).ifPresent(empresaRepository::delete);
-        return "ok";
+        return new ResultadoOperacaoDTO<>(true, Constants.EXCLUIDA, null);
     }
 
 }

@@ -2,8 +2,7 @@ package com.selecao.leilao.entity;
 
 import com.selecao.leilao.util.ConfigUrl;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +10,9 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(schema = ConfigUrl.SCHEMA_PROJETO, name = "unidade")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Unidade {
 
     @Id
